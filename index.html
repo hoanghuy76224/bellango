@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Bella & Lance · 07.11.2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink-50:#fdf2f5;
+  --pink-100:#fce4ea;
+  --pink-200:#f8c7d4;
+  --pink-300:#f0a3b8;
+  --pink-400:#e57a98;
+  --pink-500:#d15a7e;
+  --pink-600:#b04066;
+  --wine:#7a2540;
+  --ink:#4a3540;
+  --cream:#fffafc;
+  --gold:#c9a24b;
+  --shadow:0 20px 50px -20px rgba(122,37,64,.35);
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Be Vietnam Pro',system-ui,sans-serif;
+  --script:'Dancing Script',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--pink-50);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+body.locked{overflow:hidden;height:100vh}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2}
+.script{font-family:var(--script)}
+
+/* ---------- IMAGE PLACEHOLDER (thay bằng ảnh thật sau) ---------- */
+.ph{
+  position:relative;
+  background:linear-gradient(135deg,var(--pink-200),var(--pink-400));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;text-align:center;
+  font-size:.72rem;letter-spacing:.05em;
+  padding:1rem;overflow:hidden;
+}
+.ph::after{
+  content:attr(data-note);
+  opacity:.9;font-family:var(--sans);font-weight:400;
+  text-shadow:0 1px 4px rgba(0,0,0,.25);
+}
+.ph.alt{background:linear-gradient(135deg,var(--pink-300),var(--wine))}
+
+/* ---------- LANGUAGE SWITCH (sticky) ---------- */
+#lang-switch{
+  position:fixed;top:16px;right:16px;z-index:900;
+  display:flex;background:rgba(255,255,255,.85);
+  backdrop-filter:blur(8px);border-radius:999px;
+  box-shadow:var(--shadow);padding:3px;
+  border:1px solid var(--pink-200);
+}
+#lang-switch button{
+  border:none;background:none;cursor:pointer;
+  font-family:var(--sans);font-weight:600;font-size:.8rem;
+  padding:6px 14px;border-radius:999px;color:var(--pink-600);
+  transition:.25s;
+}
+#lang-switch button.active{background:var(--pink-500);color:#fff}
+
+/* ---------- OPENING (passport) ---------- */
+#opening{
+  position:fixed;inset:0;z-index:800;
+  background:linear-gradient(160deg,#fff5f8,var(--pink-100));
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .8s ease,visibility .8s;
+}
+#opening.gone{opacity:0;visibility:hidden;pointer-events:none}
+.passport{
+  width:min(340px,86vw);aspect-ratio:2/2.7;
+  perspective:1600px;position:relative;
+}
+.pp-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;transition:transform 1.1s cubic-bezier(.6,.05,.2,1);
+}
+.passport.open .pp-inner{transform:translateX(-50%) rotateY(-155deg)}
+.pp-face{
+  position:absolute;inset:0;border-radius:12px 16px 16px 12px;
+  backface-visibility:hidden;box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.pp-cover{
+  background:
+    radial-gradient(circle at 50% 30%,rgba(255,255,255,.15),transparent 60%),
+    linear-gradient(150deg,var(--wine),var(--pink-600));
+  color:#fff;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.6rem;
+  text-align:center;padding:2rem 1.4rem;
+  border:1px solid rgba(255,255,255,.15);
+}
+.pp-cover .crest{
+  width:66px;height:66px;border-radius:50%;
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--script);font-size:1.7rem;color:var(--gold);
+  margin-bottom:.4rem;
+}
+.pp-cover .kind{
+  font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;
+  opacity:.85;
+}
+.pp-cover h2{font-size:1.5rem;color:#ffefefe}
+.pp-cover .names{font-family:var(--script);font-size:2rem;color:var(--gold);line-height:1.1}
+.pp-cover .date{font-size:.8rem;letter-spacing:.15em;opacity:.9}
+.pp-back{
+  transform:rotateY(180deg);
+  background:var(--cream);
+}
+.pp-photo{width:100%;height:100%}
+.tap-btn{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,.9);color:var(--pink-600);
+  border:none;border-radius:999px;padding:11px 26px;
+  font-family:var(--sans);font-weight:600;font-size:.85rem;
+  cursor:pointer;box-shadow:var(--shadow);white-space:nowrap;
+  animation:bob 1.8s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+.scroll-hint{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  z-index:790;color:var(--pink-600);font-size:.78rem;
+  text-align:center;opacity:0;transition:opacity .6s .8s;
+  pointer-events:none;
+}
+.scroll-hint.show{opacity:1}
+.scroll-hint .arrow{display:block;margin:4px auto 0;width:20px;height:20px;
+  border-right:2px solid var(--pink-500);border-bottom:2px solid var(--pink-500);
+  transform:rotate(45deg);animation:bob 1.8s ease-in-out infinite}
+
+/* ---------- SECTIONS ---------- */
+section{padding:5rem 1.4rem;max-width:920px;margin:0 auto}
+.eyebrow{
+  text-align:center;color:var(--pink-500);font-weight:600;
+  letter-spacing:.28em;text-transform:uppercase;font-size:.72rem;
+  margin-bottom:.5rem;
+}
+.sec-title{text-align:center;font-size:2.1rem;color:var(--wine);margin-bottom:2.5rem}
+.sec-title .script{display:block;font-size:1.4rem;color:var(--pink-400)}
+
+/* HERO after open */
+#hero{padding-top:6rem}
+#hero .hero-photo{width:100%;aspect-ratio:3/4;max-width:520px;margin:0 auto;border-radius:20px}
+.opening-story{max-width:620px;margin:2.2rem auto 0;text-align:center;
+  font-family:var(--serif);font-size:1.28rem;font-style:italic;color:var(--ink)}
+
+/* TIMELINE */
+.timeline{position:relative;margin-top:1rem}
+.timeline::before{
+  content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;
+  background:linear-gradient(var(--pink-200),var(--pink-400),var(--pink-200));
+  transform:translateX(-50%);
+}
+.tl-item{position:relative;width:50%;padding:1rem 2rem 2rem;}
+.tl-item:nth-child(odd){left:0;text-align:right}
+.tl-item:nth-child(even){left:50%}
+.tl-item::before{
+  content:'✈';position:absolute;top:1.2rem;
+  width:34px;height:34px;border-radius:50%;background:var(--pink-500);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;
+  box-shadow:0 0 0 5px var(--pink-100);
+}
+.tl-item:nth-child(odd)::before{right:-17px}
+.tl-item:nth-child(even)::before{left:-17px}
+.tl-photo{width:100%;aspect-ratio:4/3;border-radius:14px;margin-bottom:.8rem}
+.tl-date{font-family:var(--script);font-size:1.5rem;color:var(--pink-500)}
+.tl-head{font-family:var(--serif);font-size:1.2rem;color:var(--wine);margin-bottom:.4rem}
+.tl-cap{font-size:.92rem;font-style:italic;color:var(--ink)}
+@media(max-width:640px){
+  .timeline::before{left:20px}
+  .tl-item,.tl-item:nth-child(even){width:100%;left:0;text-align:left;padding-left:3rem}
+  .tl-item:nth-child(odd){text-align:left}
+  .tl-item::before,.tl-item:nth-child(odd)::before,.tl-item:nth-child(even)::before{left:3px}
+}
+
+/* PROFILE CARDS */
+.profiles{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.pcard{
+  background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);
+  text-align:center;padding-bottom:1.6rem;border:1px solid var(--pink-100);
+}
+.pcard .pc-photo{width:100%;aspect-ratio:3/4}
+.pcard .pc-role{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pink-400);margin-top:1rem}
+.pcard .pc-name{font-family:var(--script);font-size:2rem;color:var(--wine);line-height:1.1;margin:.2rem 0 .6rem}
+.pcard .pc-desc{font-size:.9rem;padding:0 1.2rem;color:var(--ink)}
+@media(max-width:560px){.profiles{grid-template-columns:1fr}}
+
+/* COUNTDOWN */
+#countdown{background:linear-gradient(160deg,var(--pink-500),var(--wine));border-radius:26px;color:#fff;max-width:840px}
+#countdown .sec-title,#countdown .eyebrow{color:#fff}
+#countdown .sec-title .script{color:var(--pink-200)}
+.cal-note{text-align:center;margin-bottom:1.6rem;font-family:var(--script);font-size:1.6rem;color:var(--pink-100)}
+.cd-grid{display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap}
+.cd-box{background:rgba(255,255,255,.14);border-radius:16px;padding:1rem 1.1rem;min-width:74px;text-align:center;backdrop-filter:blur(4px)}
+.cd-num{font-family:var(--serif);font-size:2.2rem;font-weight:600;line-height:1}
+.cd-lbl{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:.3rem}
+
+/* EVENT */
+.events{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.ecard{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:2rem 1.6rem;text-align:center;border:1px solid var(--pink-100)}
+.ecard .etag{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pink-400)}
+.ecard h3{font-size:1.5rem;color:var(--wine);margin:.4rem 0 1rem}
+.ecard .erow{font-size:.92rem;margin:.35rem 0}
+.ecard .erow strong{color:var(--pink-600)}
+.btn{
+  display:inline-block;margin-top:1rem;background:var(--pink-500);color:#fff;
+  text-decoration:none;border-radius:999px;padding:9px 20px;font-size:.82rem;
+  font-weight:600;border:none;cursor:pointer;transition:.25s;
+}
+.btn:hover{background:var(--pink-600)}
+.btn.ghost{background:none;color:var(--pink-600);border:1.5px solid var(--pink-300);margin-left:.4rem}
+.timeline-evt{max-width:520px;margin:2rem auto 0;background:#fff;border-radius:18px;padding:1.6rem;box-shadow:var(--shadow)}
+.timeline-evt .te-row{display:flex;gap:1rem;padding:.5rem 0;border-bottom:1px dashed var(--pink-100);font-size:.92rem}
+.timeline-evt .te-row:last-child{border:none}
+.timeline-evt .te-time{color:var(--pink-500);font-weight:600;min-width:56px}
+@media(max-width:560px){.events{grid-template-columns:1fr}}
+
+/* FAMILY ANNOUNCE */
+.announce{background:#fff;border:1px solid var(--pink-200);border-radius:22px;padding:2.4rem 1.6rem;text-align:center;box-shadow:var(--shadow);max-width:640px;margin:0 auto}
+.announce .fam{display:flex;justify-content:space-around;flex-wrap:wrap;gap:1rem;margin-bottom:1.6rem}
+.announce .fam div{font-size:.88rem}
+.announce .fam .ftag{color:var(--pink-400);letter-spacing:.15em;font-size:.66rem;text-transform:uppercase;margin-bottom:.3rem}
+.announce .an-lead{font-family:var(--serif);font-size:1.1rem;color:var(--ink)}
+.announce .an-names{font-family:var(--script);font-size:2rem;color:var(--wine);margin:.4rem 0}
+.announce .an-date{font-family:var(--serif);font-size:1.5rem;color:var(--pink-500);letter-spacing:.1em;margin-top:1rem}
+
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.gallery .ph{aspect-ratio:1;border-radius:10px}
+.gallery .ph:nth-child(1),.gallery .ph:nth-child(6){grid-row:span 2;aspect-ratio:1/2}
+@media(max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+
+/* RSVP */
+#rsvp{background:var(--pink-100);border-radius:26px;max-width:640px}
+.form-note{text-align:center;font-size:.82rem;color:var(--pink-600);background:rgba(255,255,255,.6);border-radius:12px;padding:.6rem;margin-bottom:1.4rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.82rem;font-weight:600;color:var(--wine);margin-bottom:.35rem}
+.field input,.field select,.field textarea{
+  width:100%;border:1px solid var(--pink-200);border-radius:12px;
+  padding:.7rem .9rem;font-family:var(--sans);font-size:.92rem;background:#fff;
+}
+.radio-row{display:flex;gap:.8rem}
+.radio-row label{flex:1;border:1px solid var(--pink-200);border-radius:12px;padding:.7rem;text-align:center;cursor:pointer;background:#fff;font-weight:500}
+.radio-row input{display:none}
+.radio-row input:checked+span{color:var(--pink-600);font-weight:600}
+.radio-row label:has(input:checked){border-color:var(--pink-500);background:var(--pink-50)}
+
+/* GIFT */
+.gift-box{max-width:420px;margin:0 auto;text-align:center}
+.gift-cover{
+  background:linear-gradient(150deg,var(--pink-400),var(--wine));
+  border-radius:20px;padding:2.6rem 1.6rem;color:#fff;cursor:pointer;
+  box-shadow:var(--shadow);transition:.3s;position:relative;
+}
+.gift-cover:hover{transform:translateY(-4px)}
+.gift-cover .gicon{font-size:3rem}
+.gift-cover .ghint{font-size:.82rem;opacity:.9;margin-top:.6rem}
+.gift-reveal{display:none;background:#fff;border-radius:20px;padding:2rem;box-shadow:var(--shadow);border:1px solid var(--pink-100)}
+.gift-reveal.show{display:block}
+.qr-grid{display:flex;gap:1.4rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.qr-item{text-align:center}
+.qr-item .ph{width:150px;height:150px;border-radius:14px;margin:0 auto .6rem}
+.qr-item .qr-name{font-weight:600;color:var(--wine);font-size:.9rem}
+.qr-item .qr-bank{font-size:.8rem;color:var(--ink)}
+
+/* GUESTBOOK */
+#guestbook{max-width:640px}
+.gb-form{display:flex;gap:.6rem;margin-bottom:1.6rem;flex-wrap:wrap}
+.gb-form input{flex:1;min-width:140px;border:1px solid var(--pink-200);border-radius:12px;padding:.7rem .9rem;font-family:var(--sans)}
+.gb-list{display:flex;flex-direction:column;gap:.8rem}
+.gb-msg{background:#fff;border-radius:14px;padding:1rem 1.2rem;box-shadow:0 6px 18px -12px rgba(122,37,64,.4);border-left:3px solid var(--pink-400)}
+.gb-msg .gb-name{font-family:var(--script);font-size:1.3rem;color:var(--pink-600)}
+.gb-msg .gb-text{font-size:.92rem;color:var(--ink)}
+
+/* CLOSING */
+#closing{text-align:center;padding-bottom:6rem}
+.closing-quote{font-family:var(--serif);font-style:italic;font-size:1.4rem;color:var(--wine);max-width:560px;margin:0 auto}
+.closing-names{font-family:var(--script);font-size:3rem;color:var(--pink-500);margin-top:1.6rem}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+/* i18n: mặc định VI hiện, EN ẩn; đảo lại khi lang=en */
+[data-en]{display:none}
+[data-vi]{display:inline}
+[data-vi].block,.opening-story [data-vi]{display:block}
+html[data-lang="en"] [data-vi]{display:none}
+html[data-lang="en"] [data-en]{display:inline}
+html[data-lang="en"] [data-en].block,html[data-lang="en"] .opening-story [data-en]{display:block}
+</style>
+</head>
+<body class="locked" data-lang="vi">
+
+<!-- LANGUAGE SWITCH -->
+<div id="lang-switch">
+  <button data-set-lang="vi" class="active">VN</button>
+  <button data-set-lang="en">EN</button>
+</div>
+
+<!-- OPENING PASSPORT -->
+<div id="opening">
+  <div class="passport" id="passport">
+    <div class="pp-inner">
+      <div class="pp-face pp-cover">
+        <div class="crest">B&L</div>
+        <div class="kind"><span data-vi>Hộ chiếu tình yêu</span><span data-en>Passport of Love</span></div>
+        <div class="names">Bella<br>& Lance</div>
+        <div class="date">07 · 11 · 2026</div>
+      </div>
+      <div class="pp-face pp-back">
+        <div class="ph pp-photo" data-note="[ẢNH] Ảnh cưới dọc mở passport"></div>
+      </div>
+    </div>
+    <button class="tap-btn" id="tap-btn">
+      <span data-vi>Chạm để mở thiệp</span><span data-en>Tap to Open</span>
+    </button>
+  </div>
+</div>
+<div class="scroll-hint" id="scroll-hint">
+  <span data-vi>Cuộn xuống để xem thêm</span><span data-en>Scroll down</span>
+  <span class="arrow"></span>
+</div>
+
+<!-- HERO -->
+<section id="hero" class="reveal">
+  <p class="eyebrow"><span data-vi>Save the date</span><span data-en>Save the date</span></p>
+  <div class="ph hero-photo" data-note="[VIDEO/ẢNH] Slide ảnh cưới tràn màn hình + nhạc nền"></div>
+  <p class="opening-story">
+    <span data-vi class="block">"Một hành trình đẹp đẽ bắt đầu từ một cú 'match' định mệnh trên Bumble vào tháng 6/2024. Giữa vô vàn lựa chọn, chúng tôi vô tình quẹt trúng tần số của nhau: một cô gái Sài Gòn năng động, rực rỡ với nụ cười luôn tỏa sáng, và một chàng trai đến từ thiên đường biển Hawaii sâu sắc, chu đáo từ những điều nhỏ nhặt nhất. Khoảng cách múi giờ chẳng thể làm khó hai trái tim, mà chỉ khiến những chuyến bay gặp nhau mỗi 6 tháng thêm phần ngọt ngào. Cùng nhau đi qua từng góc nhỏ trên thế giới, chúng tôi nhận ra hành trình đẹp đẽ nhất chính là hành trình có nhau."</span>
+    <span data-en class="block">"Our beautiful journey begins with a fateful match on Bumble in June 2024. Among endless choices, we serendipitously tuned into the exact same frequency: a vibrant Saigon girl with a bright, radiant smile, and a guy from the ocean paradise of Hawaii, thoughtful and caring in every little detail. Time zones couldn't keep two hearts apart; they only made our reunions every six months all the sweeter. Journeying through different corners of the world together, we came to realize that the most beautiful journey of all is the one we share."</span>
+  </p>
+</section>
+
+<!-- INVITE (personalized) -->
+<section class="reveal" style="text-align:center;padding-top:1rem">
+  <p class="eyebrow"><span data-vi>Trân trọng kính mời</span><span data-en>Cordially invites</span></p>
+  <p class="script" style="font-size:2.4rem;color:var(--wine)" id="guest-name">Quý khách</p>
+  <p style="font-size:.95rem;color:var(--pink-600)">
+    <span data-vi>đến chung vui cùng ngày hạnh phúc của chúng tôi</span>
+    <span data-en>to celebrate the happiest day of our lives</span>
+  </p>
+</section>
+
+<!-- LOVE STORY TIMELINE -->
+<section id="story">
+  <p class="eyebrow"><span data-vi>Câu chuyện tình yêu</span><span data-en>Our love story</span></p>
+  <h2 class="sec-title"><span class="script">Our Journey</span></h2>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="ph tl-photo" data-note="[ẢNH] 06/2024 Bumble"></div>
+      <div class="tl-date">06 / 2024</div>
+      <div class="tl-head"><span data-vi>Cú Match Định Mệnh</span><span data-en>The Perfect Match</span></div>
+      <div class="tl-cap">
+        <span data-vi>"Giữa hàng triệu người trên Bumble, cảm ơn vũ trụ đã cho chúng mình quẹt trúng tần số của nhau."</span>
+        <span data-en>"Out of millions on Bumble, thank the universe for letting us swipe right on each other's wavelength."</span>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="ph tl-photo" data-note="[ẢNH] 03/2025 Đà Nẵng - Hội An - Huế"></div>
+      <div class="tl-date">03 / 2025</div>
+      <div class="tl-head"><span data-vi>Đà Nẵng - Hội An - Huế</span><span data-en>First Trip Together</span></div>
+      <div class="tl-cap">
+        <span data-vi>"Mọi người thường nói Huế là thành phố mộng mơ, Hội An là thành phố lung linh ánh đèn, còn Bà Nà Hills là 'châu Âu thu nhỏ' của Đà Nẵng. Nhưng khi có anh bên cạnh, thành phố nào cũng là thành phố trong mơ của em."</span>
+        <span data-en>"They say Hue is a city of romance, Hoi An is a city of lanterns, and Ba Na Hills is a 'miniature Europe' of Da Nang. But with you by my side, every city is the city of my dreams."</span>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="ph tl-photo" data-note="[ẢNH] 10/2025 Nhật Bản"></div>
+      <div class="tl-date">10 / 2025</div>
+      <div class="tl-head"><span data-vi>Mùa Thu Nhật Bản</span><span data-en>Autumn in Japan</span></div>
+      <div class="tl-cap">
+        <span data-vi>"Mùa thu Nhật Bản lãng mạn thật đấy, nhưng điều đẹp nhất trong toàn bộ chuyến đi 10 ngày ấy... chính là ánh mắt anh nhìn em giữa dòng người."</span>
+        <span data-en>"Autumn in Japan was truly magical, but the most beautiful view of those 10 days... was the way you looked at me in the crowd."</span>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="ph tl-photo" data-note="[ẢNH] 04/2026 Sydney"></div>
+      <div class="tl-date">04 / 2026</div>
+      <div class="tl-head"><span data-vi>Sydney, Australia</span><span data-en>Sydney, Australia</span></div>
+      <div class="tl-cap">
+        <span data-vi>"Nhà hát Con Sò lãng mạn dưới nắng thu Sydney, và màn pháo hoa rực rỡ rọi sáng cả góc trời đêm... Nhưng giữa hàng ngàn ánh đèn lung linh ấy, em nhận ra khoảnh khắc lấp lánh nhất chính là nụ cười của anh khi nắm tay em."</span>
+        <span data-en>"The iconic Opera House bathed in golden autumn light, and fireworks illuminating the Sydney night sky... Yet among thousands of glittering lights, the most brilliant view was your smile as you held my hand."</span>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="ph alt tl-photo" data-note="[ẢNH] 11/2026 Về chung một nhà"></div>
+      <div class="tl-date">11 / 2026</div>
+      <div class="tl-head"><span data-vi>Về chung một nhà</span><span data-en>Our Forever Begins</span></div>
+      <div class="tl-cap">
+        <span data-vi>"Tháng 11/2026, sau tất cả những chuyến bay, chúng mình quyết định đáp xuống 'chuyến bay cuộc đời' cùng xây dựng một mái ấm gia đình trọn vẹn và vững chắc."</span>
+        <span data-en>"After all the flights, we're finally landing on our ultimate destination, building a warm, loving home together for a lifetime."</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE CARDS -->
+<section id="profiles">
+  <p class="eyebrow"><span data-vi>Cô dâu & Chú rể</span><span data-en>The bride & groom</span></p>
+  <h2 class="sec-title"><span class="script">Bella & Lance</span></h2>
+  <div class="profiles">
+    <div class="pcard reveal">
+      <div class="ph pc-photo" data-note="[ẢNH] Chân dung cô dâu Bella"></div>
+      <div class="pc-role">👰 <span data-vi>Cô dâu</span><span data-en>The bride</span></div>
+      <div class="pc-name">Mai Anh<br><span style="font-size:1rem;color:var(--pink-400)">Bella</span></div>
+      <div class="pc-desc">
+        <span data-vi>"Cô gái Việt Nam hướng ngoại, tràn đầy năng lượng tích cực và luôn mang theo nụ cười rực rỡ làm bừng sáng mọi khoảng không gian."</span>
+        <span data-en>"An outgoing Vietnamese girl, full of positive energy, whose radiant smile brightens up every room she walks into."</span>
+      </div>
+    </div>
+    <div class="pcard reveal">
+      <div class="ph alt pc-photo" data-note="[ẢNH] Chân dung chú rể Lance"></div>
+      <div class="pc-role">🤵 <span data-vi>Chú rể</span><span data-en>The groom</span></div>
+      <div class="pc-name">Lance<br><span style="font-size:1rem;color:var(--pink-400)">Taniguchi</span></div>
+      <div class="pc-desc">
+        <span data-vi>"Chàng trai đến từ thiên đường biển Hawaii, Mỹ, hướng nội, sâu sắc và cực kỳ tốt bụng. Anh luôn chăm sóc Bella từ những điều nhỏ nhặt nhất và sẽ là trụ cột vững chắc nhất cho mái ấm nhỏ."</span>
+        <span data-en>"A deep, kind, and thoughtful soul from Hawaii, USA. He pays attention to the smallest details and stands as the steady, loving rock of their future family."</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTDOWN -->
+<section id="countdown" class="reveal">
+  <p class="eyebrow"><span data-vi>Đếm ngược</span><span data-en>Countdown</span></p>
+  <h2 class="sec-title"><span data-vi>Còn bao lâu nữa?</span><span data-en>How long to go?</span></h2>
+  <p class="cal-note">07 · 11 · 2026</p>
+  <div class="cd-grid">
+    <div class="cd-box"><div class="cd-num" id="cd-d">--</div><div class="cd-lbl"><span data-vi>Ngày</span><span data-en>Days</span></div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-h">--</div><div class="cd-lbl"><span data-vi>Giờ</span><span data-en>Hours</span></div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-m">--</div><div class="cd-lbl"><span data-vi>Phút</span><span data-en>Min</span></div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-s">--</div><div class="cd-lbl"><span data-vi>Giây</span><span data-en>Sec</span></div></div>
+  </div>
+</section>
+
+<!-- EVENT DETAILS -->
+<section id="events">
+  <p class="eyebrow"><span data-vi>Thông tin lễ cưới</span><span data-en>Event details</span></p>
+  <h2 class="sec-title"><span class="script">Save our date</span></h2>
+  <div class="events">
+    <div class="ecard reveal">
+      <div class="etag"><span data-vi>Lễ Vu Quy</span><span data-en>Morning Ceremony</span></div>
+      <h3>09:00</h3>
+      <div class="erow"><strong><span data-vi>Thứ Bảy, 07.11.2026</span><span data-en>Saturday, 07.11.2026</span></strong></div>
+      <div class="erow"><span data-vi>(Nhằm ngày 29/09 Bính Ngọ)</span><span data-en>(Lunar: 29/09 Binh Ngo)</span></div>
+      <div class="erow"><span data-vi>Tư gia nhà gái</span><span data-en>Bride's family home</span></div>
+      <div class="erow">Phường Tân Sơn, TP.HCM</div>
+      <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Ph%C6%B0%E1%BB%9Dng+T%C3%A2n+S%C6%A1n+TP.HCM"><span data-vi>Chỉ đường</span><span data-en>Directions</span></a>
+    </div>
+    <div class="ecard reveal">
+      <div class="etag"><span data-vi>Tiệc Cưới</span><span data-en>Evening Reception</span></div>
+      <h3>18:00</h3>
+      <div class="erow"><strong><span data-vi>Thứ Bảy, 07.11.2026</span><span data-en>Saturday, 07.11.2026</span></strong></div>
+      <div class="erow"><span data-vi>Nhà hàng Tiệc cưới The Chateau</span><span data-en>The Chateau Wedding Restaurant</span></div>
+      <div class="erow">Sảnh Garnet + Emerald (C34) - Lầu 3</div>
+      <div class="erow">26 Phan Văn Trị, P. Hạnh Thông, TP.HCM</div>
+      <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=The+Chateau+26+Phan+V%C4%83n+Tr%E1%BB%8B+TP.HCM"><span data-vi>Chỉ đường</span><span data-en>Directions</span></a>
+      <a class="btn ghost" target="_blank" id="add-cal"><span data-vi>Thêm vào Lịch</span><span data-en>Add to Calendar</span></a>
+    </div>
+  </div>
+
+  <div class="timeline-evt reveal">
+    <p style="text-align:center;font-weight:600;color:var(--wine);margin-bottom:.6rem"><span data-vi>Chương trình tiệc</span><span data-en>Reception timeline</span></p>
+    <div class="te-row"><span class="te-time">18:00</span><span><span data-vi>Đón khách & Check in Photobooth</span><span data-en>Welcome & Photobooth check-in</span></span></div>
+    <div class="te-row"><span class="te-time">19:00</span><span><span data-vi>Nghi thức</span><span data-en>Ceremony</span></span></div>
+    <div class="te-row"><span class="te-time">19:30</span><span><span data-vi>Khai tiệc</span><span data-en>Dinner begins</span></span></div>
+    <div class="te-row"><span class="te-time">19:45</span><span><span data-vi>Lô Tô Show</span><span data-en>Lô Tô Show</span></span></div>
+  </div>
+</section>
+
+<!-- FAMILY ANNOUNCE -->
+<section id="announce">
+  <div class="announce reveal">
+    <div class="fam">
+      <div>
+        <div class="ftag"><span data-vi>Nhà Gái</span><span data-en>Bride's family</span></div>
+        Ông Ngô Xuân Nhựng<br>Bà Nguyễn Thị Sương<br>
+        <span style="font-size:.78rem;color:var(--pink-400)">P. Tân Sơn, TP.HCM</span>
+      </div>
+      <div>
+        <div class="ftag"><span data-vi>Nhà Trai</span><span data-en>Groom's family</span></div>
+        Mr. Clayton Taniguchi<br>Mrs. Sidney Taniguchi<br>
+        <span style="font-size:.78rem;color:var(--pink-400)">Honolulu, Hawaii, USA</span>
+      </div>
+    </div>
+    <p class="an-lead"><span data-vi>Trân trọng báo tin lễ thành hôn của con chúng tôi</span><span data-en>Joyfully announce the wedding of</span></p>
+    <p class="an-names">Ngô Thị Mai Anh (Bella)<br><span style="font-size:1rem;color:var(--pink-400)"><span data-vi>Trưởng Nữ</span><span data-en>Eldest daughter</span></span></p>
+    <p class="script" style="font-size:1.6rem;color:var(--pink-400)">&</p>
+    <p class="an-names">Lance Taniguchi<br><span style="font-size:1rem;color:var(--pink-400)"><span data-vi>Út Nam</span><span data-en>Youngest son</span></span></p>
+    <p class="an-date">07 | 11 | 2026</p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <p class="eyebrow"><span data-vi>Album ảnh cưới</span><span data-en>Photo gallery</span></p>
+  <h2 class="sec-title"><span class="script">Moments</span></h2>
+  <div class="gallery">
+    <div class="ph" data-note="[ẢNH 1]"></div>
+    <div class="ph alt" data-note="[ẢNH 2]"></div>
+    <div class="ph" data-note="[ẢNH 3]"></div>
+    <div class="ph alt" data-note="[ẢNH 4]"></div>
+    <div class="ph" data-note="[ẢNH 5]"></div>
+    <div class="ph alt" data-note="[ẢNH 6]"></div>
+    <div class="ph" data-note="[ẢNH 7]"></div>
+    <div class="ph alt" data-note="[ẢNH 8]"></div>
+  </div>
+</section>
+
+<!-- RSVP -->
+<section id="rsvp" class="reveal">
+  <p class="eyebrow"><span data-vi>Xác nhận tham dự</span><span data-en>RSVP</span></p>
+  <h2 class="sec-title"><span data-vi>Bạn sẽ đến chứ?</span><span data-en>Will you join us?</span></h2>
+  <p class="form-note">
+    <span data-vi>⚙️ [CẦN GẮN] Endpoint Google Sheet / Apps Script — hiện form chưa gửi dữ liệu đi.</span>
+    <span data-en>⚙️ [TODO] Connect Google Sheet endpoint — form not wired yet.</span>
+  </p>
+  <form id="rsvp-form">
+    <div class="field">
+      <label><span data-vi>Họ và tên</span><span data-en>Full name</span></label>
+      <input type="text" name="name" required>
+    </div>
+    <div class="field">
+      <label><span data-vi>Bạn sẽ tham dự?</span><span data-en>Will you attend?</span></label>
+      <div class="radio-row">
+        <label><input type="radio" name="attend" value="yes" checked><span><span data-vi>Có, mình sẽ đến</span><span data-en>Yes, joyfully</span></span></label>
+        <label><input type="radio" name="attend" value="no"><span><span data-vi>Rất tiếc, không thể</span><span data-en>Regretfully, no</span></span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-vi>Số người đi cùng</span><span data-en>Number of guests</span></label>
+      <select name="guests"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select>
+    </div>
+    <div class="field">
+      <label><span data-vi>Lời chúc gửi cô dâu chú rể</span><span data-en>Your wishes</span></label>
+      <textarea name="wish" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn" style="width:100%"><span data-vi>Gửi xác nhận</span><span data-en>Send RSVP</span></button>
+  </form>
+</section>
+
+<!-- GIFT -->
+<section id="gift">
+  <p class="eyebrow"><span data-vi>Hộp quà cưới</span><span data-en>Wedding gift</span></p>
+  <h2 class="sec-title"><span class="script">With love</span></h2>
+  <div class="gift-box">
+    <div class="gift-cover" id="gift-cover">
+      <div class="gicon">🎁</div>
+      <div><span data-vi>Gửi chút quà mừng đến chúng mình</span><span data-en>Send us a little gift</span></div>
+      <div class="ghint"><span data-vi>Chạm để mở hộp quà</span><span data-en>Tap to open the gift box</span></div>
+    </div>
+    <div class="gift-reveal" id="gift-reveal">
+      <div class="qr-grid">
+        <div class="qr-item">
+          <div class="ph" data-note="[QR] STK cô dâu"></div>
+          <div class="qr-name">Bella</div>
+          <div class="qr-bank"><span data-vi>[Tên ngân hàng · Số TK]</span><span data-en>[Bank · Account no.]</span></div>
+        </div>
+        <div class="qr-item">
+          <div class="ph alt" data-note="[QR] STK chú rể"></div>
+          <div class="qr-name">Lance</div>
+          <div class="qr-bank"><span data-vi>[Tên ngân hàng · Số TK]</span><span data-en>[Bank · Account no.]</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUESTBOOK -->
+<section id="guestbook">
+  <p class="eyebrow"><span data-vi>Sổ lưu bút</span><span data-en>Guestbook</span></p>
+  <h2 class="sec-title"><span data-vi>Lời chúc từ mọi người</span><span data-en>Wishes from everyone</span></h2>
+  <form class="gb-form" id="gb-form">
+    <input type="text" id="gb-name" placeholder="Tên của bạn / Your name" required>
+    <input type="text" id="gb-text" placeholder="Lời chúc / Your wish" required>
+    <button type="submit" class="btn"><span data-vi>Gửi</span><span data-en>Send</span></button>
+  </form>
+  <div class="gb-list" id="gb-list">
+    <div class="gb-msg"><div class="gb-name">An & Khoa</div><div class="gb-text">Chúc hai bạn trăm năm hạnh phúc, mãi mãi bên nhau! 💕</div></div>
+    <div class="gb-msg"><div class="gb-name">Emily</div><div class="gb-text">Wishing you a lifetime of love and laughter. Congratulations!</div></div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <p class="closing-quote">
+    <span data-vi>"Rất mong sự hiện diện của Quý khách sẽ đong đầy thêm niềm hạnh phúc cho ngày vui của chúng tôi."</span>
+    <span data-en>"We sincerely hope your presence will add to the joy and happiness of our special day."</span>
+  </p>
+  <p class="closing-names">Bella & Lance</p>
+</section>
+
+<script>
+// ---------- Language ----------
+function setLang(l){
+  document.documentElement.setAttribute('data-lang',l);
+  document.documentElement.setAttribute('lang',l);
+  document.querySelectorAll('#lang-switch button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.setLang===l);
+  });
+  try{localStorage.setItem('bl-lang',l)}catch(e){}
+}
+document.querySelectorAll('#lang-switch button').forEach(b=>{
+  b.addEventListener('click',()=>setLang(b.dataset.setLang));
+});
+try{const s=localStorage.getItem('bl-lang'); if(s) setLang(s);}catch(e){}
+
+// ---------- Personalized guest name (?to=) ----------
+(function(){
+  const p=new URLSearchParams(location.search);
+  let to=p.get('to');
+  if(to){ to=decodeURIComponent(to).replace(/_/g,' ').trim();
+    if(to) document.getElementById('guest-name').textContent=to; }
+})();
+
+// ---------- Opening passport ----------
+const opening=document.getElementById('opening');
+const passport=document.getElementById('passport');
+const tapBtn=document.getElementById('tap-btn');
+const scrollHint=document.getElementById('scroll-hint');
+function openInvite(){
+  passport.classList.add('open');
+  tapBtn.style.opacity='0';
+  setTimeout(()=>{
+    opening.classList.add('gone');
+    document.body.classList.remove('locked');
+    scrollHint.classList.add('show');
+    setTimeout(()=>scrollHint.classList.remove('show'),4000);
+  },1100);
+}
+tapBtn.addEventListener('click',openInvite);
+passport.addEventListener('click',e=>{if(e.target!==tapBtn)openInvite();});
+
+// ---------- Countdown ----------
+const target=new Date('2026-11-07T09:00:00+07:00').getTime();
+function tick(){
+  const now=Date.now(), d=target-now;
+  if(d<0){document.getElementById('cd-d').textContent='0';return;}
+  const days=Math.floor(d/864e5),h=Math.floor(d%864e5/36e5),
+        m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);
+  document.getElementById('cd-d').textContent=days;
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+}
+tick();setInterval(tick,1000);
+
+// ---------- Add to calendar (Google) ----------
+document.getElementById('add-cal').href=
+  'https://calendar.google.com/calendar/render?action=TEMPLATE'+
+  '&text='+encodeURIComponent('Tiệc cưới Bella & Lance')+
+  '&dates=20261107T110000Z/20261107T150000Z'+
+  '&details='+encodeURIComponent('Lễ Thành Hôn Bella & Lance')+
+  '&location='+encodeURIComponent('The Chateau, 26 Phan Văn Trị, P. Hạnh Thông, TP.HCM');
+
+// ---------- RSVP (chờ endpoint) ----------
+document.getElementById('rsvp-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  // TODO: fetch(ENDPOINT_GOOGLE_SHEET, {method:'POST', body:new FormData(this)})
+  alert(document.documentElement.getAttribute('data-lang')==='en'
+    ? 'Thank you! (Form endpoint not connected yet.)'
+    : 'Cảm ơn bạn! (Form chưa gắn endpoint Google Sheet.)');
+});
+
+// ---------- Gift box ----------
+document.getElementById('gift-cover').addEventListener('click',function(){
+  document.getElementById('gift-reveal').classList.add('show');
+  this.style.display='none';
+});
+
+// ---------- Guestbook (local demo) ----------
+document.getElementById('gb-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  const n=document.getElementById('gb-name').value.trim();
+  const t=document.getElementById('gb-text').value.trim();
+  if(!n||!t)return;
+  const el=document.createElement('div');
+  el.className='gb-msg';
+  el.innerHTML='<div class="gb-name"></div><div class="gb-text"></div>';
+  el.querySelector('.gb-name').textContent=n;
+  el.querySelector('.gb-text').textContent=t;
+  document.getElementById('gb-list').prepend(el);
+  this.reset();
+});
+
+// ---------- Scroll reveal ----------
+const io=new IntersectionObserver(es=>{
+  es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
